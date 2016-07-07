@@ -54,6 +54,12 @@ a:hover.menu, menulink.a:active.menu {
 </div></a>
      
     <hr>
+{{if auth.user:}}
+<div style="text-align:right;">
+<ul class="menu">
+        {{=auth.navbar()}}
+</ul>
+</div>
 <div style="text-align:center;">
     <ul class="menu">
   <li class="menu"><a class="menu" href="{{=URL(c='default',f='index')}}">Start</a></li>
@@ -66,6 +72,7 @@ a:hover.menu, menulink.a:active.menu {
 <li class="menu"><a class="menu" href="{{=URL(c='user_tasks',f='index')}}">User Tasks</a></li>
 </ul>
 </div>
+{{pass}}
       
     <div id="content">
         {{include}}

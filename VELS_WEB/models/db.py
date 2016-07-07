@@ -1,5 +1,19 @@
 # -*- coding: utf-8 -*-
 
+userdb = DAL('sqlite://users.db')
+
+from gluon.tools import Auth
+auth = Auth(userdb, signature=False, csrf_prevention = False)
+auth.define_tables(username=False, signature=False)
+auth.settings.registration_requires_approval = True
+auth.settings.create_user_groups = None
+
+auth.settings.everybody_group_id = auth.id_group("vels_admins")
+
+velsusers = userdb.auth_user
+velsgroups = userdb.auth_group
+velsmemberships = userdb.auth_membership
+
 ###################################################
 ################### SEMESTER ######################
 ###################################################
