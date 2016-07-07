@@ -6,6 +6,7 @@ val={'registration_deadline' :[IS_NOT_EMPTY(),IS_DATETIME(format=T('%Y-%m-%d %H:
      'challenge_mode'        :[IS_NOT_EMPTY(),IS_IN_SET(['normal','exam'])],
      'course_name'           :[IS_NOT_EMPTY()]}
 
+@auth.requires_login()
 def __entries():
     rows=course().select(GeneralConfig.ALL)
     entries={}
@@ -13,11 +14,13 @@ def __entries():
         entries.update({row.ConfigItem:row.Content})
     return dict(entries=entries)
 
+@auth.requires_login()
 def index():
     returnDict={}
     returnDict.update(__entries())
     return returnDict
 
+@auth.requires_login()
 def edit():
     returnDict={}
     entries=__entries()['entries']

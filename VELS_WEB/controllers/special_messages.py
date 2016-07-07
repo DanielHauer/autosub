@@ -8,6 +8,7 @@ val={   'WELCOME'    :[IS_NOT_EMPTY()],
         'CURLAST'    :[IS_NOT_EMPTY()],
         'DEADTASK'   :[IS_NOT_EMPTY()]}
 
+@auth.requires_login()
 def __entries():
     rows=course().select(SpecialMessages.ALL)
     entries={}
@@ -15,11 +16,13 @@ def __entries():
         entries.update({row.EventName:row.EventText})
     return dict(entries=entries)
 
+@auth.requires_login()
 def index():
     returnDict={}
     returnDict.update(__entries())
     return returnDict
 
+@auth.requires_login()
 def edit():
     returnDict={}
     entries=__entries()['entries']

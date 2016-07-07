@@ -1,3 +1,4 @@
+@auth.requires_login()
 def __entries():
     rows=semester().select(UserTasks.ALL)
     array=[]
@@ -13,6 +14,7 @@ def __entries():
         array.append(entry)
     return dict(entries=array)
 
+@auth.requires_login()
 def index():
     returnDict={}
     returnDict.update(__entries())

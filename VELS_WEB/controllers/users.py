@@ -5,6 +5,7 @@ val={'Name'        :[IS_NOT_EMPTY()],
                        error_message='must be YYYY-MM-DD HH:MM:SS!')],
      'CurrentTask' :[IS_NOT_EMPTY(),IS_DECIMAL_IN_RANGE(minimum=1)]}
 
+@auth.requires_login()
 def __entries():
     rows=semester().select(Users.ALL)
     array=[]
@@ -19,12 +20,13 @@ def __entries():
         array.append(entry)
     return dict(entries=array)
 
-
+@auth.requires_login()
 def index():
     returnDict={}
     returnDict.update(__entries())
     return returnDict
 
+@auth.requires_login()
 def newUser():
     returnDict={}
 
@@ -53,6 +55,7 @@ def newUser():
 
     return returnDict
 
+@auth.requires_login()
 def deleteUser():
     UserId= request.vars['UserId']
     if semester(Users.UserId==UserId).delete() :
@@ -61,6 +64,7 @@ def deleteUser():
         msg='User' + UserId + ' delete failed'
     redirect(URL('index'))
 
+@auth.requires_login()
 def editUser():
     returnDict={}
     UserId= int(request.vars['editUserId'])
@@ -91,6 +95,7 @@ def editUser():
 
     return returnDict
 
+@auth.requires_login()
 def viewUser():
     returnDict={}
     UserId= int(request.vars['UserId'])

@@ -1,3 +1,4 @@
+@auth.requires_login()
 def __entriesTaskStats():
     array=[]
     rows=semester().select(TaskStats.ALL)
@@ -13,6 +14,7 @@ def __entriesTaskStats():
         array.append(entry)
     return dict(entriesTaskStats=array)
 
+@auth.requires_login()
 def __entriesStatCounters():
     array=[]
     rows=semester().select(StatCounters.ALL, orderby=StatCounters.Name)
@@ -23,6 +25,7 @@ def __entriesStatCounters():
         array.append(entry)
     return dict(entriesStatCounters=array)
 
+@auth.requires_login()
 def index():
     returnDict={}
     returnDict.update(__entriesTaskStats())

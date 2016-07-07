@@ -11,6 +11,7 @@ val={'TaskNr'              :[IS_NOT_EMPTY(),IS_DECIMAL_IN_RANGE(minimum=0)],
      'TaskOperator'        :[IS_NOT_EMPTY(),IS_EMAIL_LIST()],
      'TaskActive'          :[IS_NOT_EMPTY(),IS_IN_SET(['0','1'])]}
 
+@auth.requires_login()
 def __entries():
     rows=course().select(TaskConfiguration.ALL,orderby=TaskConfiguration.TaskNr)
     array=[]
@@ -28,11 +29,13 @@ def __entries():
     return dict(entries=array)
 
 
+@auth.requires_login()
 def index():
     returnDict={}
     returnDict.update(__entries())
     return returnDict
 
+@auth.requires_login()
 def newTask():
     returnDict={}
     returnDict.update(__entries())
@@ -76,6 +79,7 @@ def newTask():
     returnDict.update({'form':form})
     return returnDict
 
+@auth.requires_login()
 def editTask():
     returnDict={}
     returnDict.update(__entries())
@@ -110,6 +114,7 @@ def editTask():
     returnDict.update({'editTaskNr':TaskNr,'form':form})
     return returnDict
 
+@auth.requires_login()
 def deleteTask():
     TaskNr= request.vars['TaskNr']
     if course(TaskConfiguration.TaskNr==TaskNr).delete() :
@@ -118,6 +123,7 @@ def deleteTask():
         msg='Deletion of Task with number'+TaskNr+' failed'
     redirect(URL('index'))
 
+@auth.requires_login()
 def posSwitchDown():
     TaskNr= int(request.vars['TaskNr'])
     if(course(TaskConfiguration.TaskNr>TaskNr).count()>0): #switch possible?
@@ -126,6 +132,7 @@ def posSwitchDown():
         course(TaskConfiguration.TaskNr==0).update(TaskNr=TaskNr+1)
     redirect(URL('index'))
 
+@auth.requires_login()
 def posSwitchUp():
     TaskNr= int(request.vars['TaskNr'])
     if(course(TaskConfiguration.TaskNr<TaskNr).count()>0): #switch possible?

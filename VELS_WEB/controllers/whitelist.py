@@ -1,6 +1,7 @@
 val={ 'Email':[IS_NOT_EMPTY(),IS_EMAIL()] ,
       'EmailMass':[IS_NOT_EMPTY(),IS_EMAIL_MASS()]}
 
+@auth.requires_login()
 def __entries():
     rows=semester().select(Whitelist.ALL)
     array=[]
@@ -10,11 +11,13 @@ def __entries():
         array.append(entry)
     return dict(entries=array)
 
+@auth.requires_login()
 def index():
     returnDict={}
     returnDict.update(__entries())
     return returnDict
 
+@auth.requires_login()
 def newEmail():
     returnDict={}
 
@@ -34,6 +37,7 @@ def newEmail():
 
     return returnDict
 
+@auth.requires_login()
 def deleteEmail():
     UniqueId= request.vars['UniqueId']
     if semester(Whitelist.UniqueId==UniqueId).delete() :
@@ -42,6 +46,7 @@ def deleteEmail():
         msg='User delete failed'
     redirect(URL('index'))
     
+@auth.requires_login()
 def massEmail():
     returnDict={}
 
